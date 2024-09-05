@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ErrorDialogComponent } from '../shared/components/error-dialog/error-dialog.component';
 
 import { CoursesRoutingModule } from './courses-routing.module';
 
@@ -8,7 +9,8 @@ import { CoursesRoutingModule } from './courses-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    CoursesRoutingModule
+    CoursesRoutingModule,
+    ErrorDialogComponent
   ]
 })
 export class CoursesModule { }
