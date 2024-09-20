@@ -8,13 +8,19 @@ import { Course } from '../model/course';
   providedIn: 'root',
 })
 export class CoursesService {
-  private readonly API = 'assets/courses.json';
+  private readonly API = 'api/courses';
+
   constructor(private httpClient: HttpClient) {}
+
   list() {
     return this.httpClient.get<Course[]>(this.API).pipe(
       first(),
-      delay(300),
+      //delay(300),
       tap((courses) => console.log(courses))
     );
+  }
+
+  save(record: Course) {
+    return this.httpClient.post<Course>(this.API, record);
   }
 }

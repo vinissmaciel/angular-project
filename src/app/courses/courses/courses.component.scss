@@ -24,3 +24,10 @@ table {
 mat-icon{
   margin-left: 0.4vw;
 }
+
+.actions{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
