@@ -1,0 +1,27 @@
+.mat-table {
+  overflow: auto;
+  max-height: 600px;
+}
+
+.category {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+mat-icon {
+  margin-left: 0.4vw;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.action-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

@@ -20,7 +20,23 @@ export class CoursesService {
     );
   }
 
-  save(record: Course) {
+  save(record: Partial<Course>) {
+    if (record.id) {
+      return this.update(record);
+    } else {
+      return this.create(record);
+    }
+  }
+
+  private create(record: Partial<Course>) {
     return this.httpClient.post<Course>(this.API, record);
+  }
+
+  private update(record: Partial<Course>) {
+    return this.httpClient.put<Course>(`${this.API}/${record.id}`, record);
+  }
+
+  loadById(id: string) {
+    return this.httpClient.get<Course>(`${this.API}/${id}`);
   }
 }

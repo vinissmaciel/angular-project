@@ -14,6 +14,7 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
 import { CategoryPipe } from '../../shared/pipes/category.pipe';
 import { Course } from '../model/course';
 import { CoursesService } from '../services/courses.service';
+import { CoursesListComponent } from '../courses-list/courses-list.component';
 
 @Component({
   selector: 'app-courses',
@@ -28,6 +29,7 @@ import { CoursesService } from '../services/courses.service';
     MatDialogModule,
     CategoryPipe,
     MatIconModule,
+    CoursesListComponent,
   ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss',
@@ -35,7 +37,7 @@ import { CoursesService } from '../services/courses.service';
 export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
 
-  displayedColumns: string[] = ['name', 'category', 'actions'];
+  //displayedColumns: string[] = ['name', 'category', 'actions'];
 
   constructor(
     private courseService: CoursesService,
@@ -59,6 +61,10 @@ export class CoursesComponent implements OnInit {
 
   onAdd() {
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  onEdit(course: Course) {
+    this.router.navigate(['edit', course.id], { relativeTo: this.route });
   }
 
   ngOnInit(): void {}
