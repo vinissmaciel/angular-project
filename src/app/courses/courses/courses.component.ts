@@ -15,6 +15,8 @@ import { CategoryPipe } from '../../shared/pipes/category.pipe';
 import { Course } from '../model/course';
 import { CoursesService } from '../services/courses.service';
 import { CoursesListComponent } from '../courses-list/courses-list.component';
+import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-courses',
@@ -35,7 +37,7 @@ import { CoursesListComponent } from '../courses-list/courses-list.component';
   styleUrl: './courses.component.scss',
 })
 export class CoursesComponent implements OnInit {
-  courses$: Observable<Course[]>;
+  courses$: Observable<Course[]> | null = null;
 
   //displayedColumns: string[] = ['name', 'category', 'actions'];
 
@@ -43,14 +45,10 @@ export class CoursesComponent implements OnInit {
     private courseService: CoursesService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
-    this.courses$ = this.courseService.list().pipe(
-      catchError((error) => {
-        this.onError('Erro ao carregar a lista de cursos');
-        return of([]);
-      })
-    );
+    this.refresh();
   }
 
   onError(erroMsg: string) {
@@ -59,12 +57,42 @@ export class CoursesComponent implements OnInit {
     });
   }
 
+  refresh() {
+    this.courses$ = this.courseService.list().pipe(
+      catchError((error) => {
+        this.onError('Erro ao carregar a lista de cursos');
+        return of([]);
+      })
+    );
+  }
+
   onAdd() {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   onEdit(course: Course) {
     this.router.navigate(['edit', course.id], { relativeTo: this.route });
+  }
+
+  onRemove(course: Course) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Deseja realmente excluir o curso ' + course.name,
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.courseService.remove(course.id).subscribe(
+          () => {
+            this.refresh();
+            this.snackBar.open('Curso removido com sucesso', 'X', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+          },
+          () => this.onError('Erro ao tentar remover curso.')
+        );
+      }
+    });
   }
 
   ngOnInit(): void {}
