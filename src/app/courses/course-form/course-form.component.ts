@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -30,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
     MatButtonModule,
     MatSelectModule,
     MatSnackBarModule,
+    CommonModule
   ],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss',
